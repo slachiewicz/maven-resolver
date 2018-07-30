@@ -27,22 +27,20 @@ import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 
-import org.apache.http.conn.ssl.X509HostnameVerifier;
-
 /**
  * Makes a standard hostname verifier compatible with Apache HttpClient's API.
  */
 final class X509HostnameVerifierAdapter
-    implements X509HostnameVerifier
+    implements HostnameVerifier
 {
 
     private final HostnameVerifier verifier;
 
-    public static X509HostnameVerifier adapt( HostnameVerifier verifier )
+    public static HostnameVerifier adapt( HostnameVerifier verifier )
     {
-        if ( verifier instanceof X509HostnameVerifier )
+        if ( verifier instanceof HostnameVerifier )
         {
-            return (X509HostnameVerifier) verifier;
+            return  verifier;
         }
         return new X509HostnameVerifierAdapter( verifier );
     }

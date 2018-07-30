@@ -40,7 +40,6 @@ import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.params.AuthParams;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
@@ -51,14 +50,10 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.DateUtils;
 import org.apache.http.client.utils.URIUtils;
-import org.apache.http.conn.params.ConnRouteParams;
+import org.apache.http.config.SocketConfig;
 import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.impl.client.DecompressingHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.eclipse.aether.ConfigurationProperties;
 import org.eclipse.aether.RepositorySystemSession;
@@ -140,13 +135,35 @@ final class HttpTransporter
             ConfigUtils.getMap( session, Collections.emptyMap(), ConfigurationProperties.HTTP_HEADERS + "."
                 + repository.getId(), ConfigurationProperties.HTTP_HEADERS );
 
-        DefaultHttpClient client = new DefaultHttpClient( state.getConnectionManager() );
+        SocketConfig socketConfig = SocketConfig.custom()
+                .setSoTimeout( ConfigUtils.getInteger( session, ConfigurationProperties.DEFAULT_REQUEST_TIMEOUT,
+                        ConfigurationProperties.REQUEST_TIMEOUT + "." + repository.getId(),
+                        ConfigurationProperties.REQUEST_TIMEOUT ) )
+                .build();
 
-        configureClient( client.getParams(), session, repository, proxy );
+/*
+        AuthParams.setCredentialCharset(  ConfigUtils.getString( session,
+                                                                ConfigurationProperties.DEFAULT_HTTP_CREDENTIAL_ENCODING,
+                                                                ConfigurationProperties.HTTP_CREDENTIAL_ENCODING + "."
+                                                                    + repository.getId(),
+                                                                ConfigurationProperties.HTTP_CREDENTIAL_ENCODING ) );
+        HttpConnectionParams.setConnectionTimeout(
+                ConfigUtils.getInteger( session,
+                        ConfigurationProperties.DEFAULT_CONNECT_TIMEOUT,
+                        ConfigurationProperties.CONNECT_TIMEOUT
+                                + "." + repository.getId(),
+                        ConfigurationProperties.CONNECT_TIMEOUT )
+*/
 
-        client.setCredentialsProvider( toCredentialsProvider( server, repoAuthContext, proxy, proxyAuthContext ) );
+        HttpClientBuilder clientBuilder = HttpClientBuilder.create()
+                .setUserAgent( ConfigUtils.getString( session, ConfigurationProperties.DEFAULT_USER_AGENT,
+                        ConfigurationProperties.USER_AGENT ) )
+                .setDefaultSocketConfig( socketConfig )
+                .setConnectionManager( state.getConnectionManager() )
+                .setDefaultCredentialsProvider( toCredentialsProvider( server, repoAuthContext, proxy, proxyAuthContext ) )
+                .setProxy( proxy );
 
-        this.client = new DecompressingHttpClient( client );
+        this.client = clientBuilder.build();
     }
 
     private static HttpHost toHost( Proxy proxy )

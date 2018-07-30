@@ -26,7 +26,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
-import org.apache.http.conn.ssl.X509HostnameVerifier;
+import org.apache.http.conn.ssl.DefaultHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 
 /**
  * Specialized SSL socket factory to more closely resemble the JRE's HttpsClient and respect well-known SSL-related
@@ -35,8 +36,7 @@ import org.apache.http.conn.ssl.X509HostnameVerifier;
  * @see <a href="http://docs.oracle.com/javase/1.5.0/docs/guide/security/jsse/JSSERefGuide.html#Customization">JSSE
  *      Reference Guide, Customization</a>
  */
-final class SslSocketFactory
-    extends org.apache.http.conn.ssl.SSLSocketFactory
+final class SslSocketFactory extends SSLConnectionSocketFactory
 {
 
     private final String[] cipherSuites;
@@ -54,13 +54,13 @@ final class SslSocketFactory
         return ( context != null ) ? context.getSocketFactory() : (SSLSocketFactory) SSLSocketFactory.getDefault();
     }
 
-    private static X509HostnameVerifier getHostnameVerifier( HostnameVerifier verifier )
+    private static HostnameVerifier getHostnameVerifier( HostnameVerifier verifier )
     {
         return ( verifier != null ) ? X509HostnameVerifierAdapter.adapt( verifier )
-                        : org.apache.http.conn.ssl.SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER;
+                        : new DefaultHostnameVerifier();
     }
 
-    private SslSocketFactory( SSLSocketFactory socketfactory, X509HostnameVerifier hostnameVerifier,
+    private SslSocketFactory( SSLSocketFactory socketfactory, HostnameVerifier hostnameVerifier,
                               String[] cipherSuites, String[] protocols )
     {
         super( socketfactory, hostnameVerifier );
