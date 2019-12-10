@@ -73,7 +73,7 @@
     <maven.site.path>resolver-archives/resolver-LATEST</maven.site.path>
     <checkstyle.violation.ignore>None</checkstyle.violation.ignore>
     <sisuVersion>0.3.3</sisuVersion>
-    <slf4jVersion>1.7.25</slf4jVersion>
+    <slf4jVersion>1.7.29</slf4jVersion>
   </properties>
 
   <modules>
@@ -468,7 +468,7 @@
                         </goals>
                       </pluginExecutionFilter>
                       <action>
-                        <ignore />
+                        <ignore/>
                       </action>
                     </pluginExecution>
                   </pluginExecutions>
