@@ -53,14 +53,7 @@ public class UnionVersionRangeTest
             assertNotNull( bound );
             assertNotNull( bound.getVersion() );
             assertEquals( inclusive, bound.isInclusive() );
-            try
-            {
-                assertEquals( new GenericVersionScheme().parseVersion( version ), bound.getVersion() );
-            }
-            catch ( InvalidVersionSpecificationException e )
-            {
-                throw new IllegalArgumentException( e );
-            }
+            assertEquals( new GenericVersionScheme().parseVersion( version ), bound.getVersion() );
         }
     }
 

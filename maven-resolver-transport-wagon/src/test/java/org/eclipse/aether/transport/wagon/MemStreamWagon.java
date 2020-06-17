@@ -68,16 +68,14 @@ public class MemStreamWagon
 
     @Override
     protected void openConnectionInternal()
-        throws ConnectionException, AuthenticationException
+        throws ConnectionException
     {
-        fs =
-            MemWagonUtils.openConnection( this, getAuthenticationInfo(),
-                                          getProxyInfo( "mem", getRepository().getHost() ), headers );
+        fs = MemWagonUtils.openConnection( this, getAuthenticationInfo(),
+                getProxyInfo( "mem", getRepository().getHost() ), headers );
     }
 
     @Override
     public void closeConnection()
-        throws ConnectionException
     {
         fs = null;
     }
@@ -89,7 +87,6 @@ public class MemStreamWagon
 
     @Override
     public boolean resourceExists( String resourceName )
-        throws TransferFailedException, AuthorizationException
     {
         String data = getData( resourceName );
         return data != null;
@@ -97,7 +94,7 @@ public class MemStreamWagon
 
     @Override
     public void fillInputData( InputData inputData )
-        throws TransferFailedException, ResourceDoesNotExistException, AuthorizationException
+        throws ResourceDoesNotExistException
     {
         String data = getData( inputData.getResource().getName() );
         if ( data == null )
@@ -111,14 +108,12 @@ public class MemStreamWagon
 
     @Override
     public void fillOutputData( OutputData outputData )
-        throws TransferFailedException
     {
         outputData.setOutputStream( new ByteArrayOutputStream() );
     }
 
     @Override
     protected void finishPutTransfer( Resource resource, InputStream input, OutputStream output )
-        throws TransferFailedException, AuthorizationException, ResourceDoesNotExistException
     {
         String data = new String( ( (ByteArrayOutputStream) output ).toByteArray(), StandardCharsets.UTF_8 );
         fs.put( URI.create( resource.getName() ).getSchemeSpecificPart(), data );

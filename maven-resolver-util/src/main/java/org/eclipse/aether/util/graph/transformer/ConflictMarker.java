@@ -27,7 +27,6 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.aether.RepositoryException;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.collection.DependencyGraphTransformationContext;
 import org.eclipse.aether.collection.DependencyGraphTransformer;
@@ -51,7 +50,6 @@ public final class ConflictMarker
      * @see DependencyGraphTransformer#transformGraph(DependencyNode, DependencyGraphTransformationContext)
      */
     public DependencyNode transformGraph( DependencyNode node, DependencyGraphTransformationContext context )
-        throws RepositoryException
     {
         @SuppressWarnings( "unchecked" )
         Map<String, Object> stats = (Map<String, Object>) context.get( TransformationContextKeys.STATS );

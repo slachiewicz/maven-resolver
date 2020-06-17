@@ -29,7 +29,6 @@ public class StubVersionResolver
 {
 
     public VersionResult resolveVersion( RepositorySystemSession session, VersionRequest request )
-        throws VersionResolutionException
     {
         return new VersionResult( request );
     }

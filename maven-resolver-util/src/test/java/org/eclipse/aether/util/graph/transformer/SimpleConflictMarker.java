@@ -37,7 +37,6 @@ class SimpleConflictMarker
 {
 
     public DependencyNode transformGraph( DependencyNode node, DependencyGraphTransformationContext context )
-        throws RepositoryException
     {
         @SuppressWarnings( "unchecked" )
         Map<DependencyNode, Object> conflictIds =

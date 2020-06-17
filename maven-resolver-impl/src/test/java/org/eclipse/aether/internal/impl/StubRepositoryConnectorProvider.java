@@ -46,7 +46,6 @@ class StubRepositoryConnectorProvider
     }
 
     public RepositoryConnector newRepositoryConnector( RepositorySystemSession session, RemoteRepository repository )
-        throws NoRepositoryConnectorException
     {
         return connector;
     }

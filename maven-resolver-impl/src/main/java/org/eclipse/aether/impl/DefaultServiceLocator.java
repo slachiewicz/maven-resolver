@@ -96,7 +96,8 @@ public final class DefaultServiceLocator
             providers = new LinkedHashSet<>( 8 );
         }
 
-        public synchronized void setServices( T... services )
+        @SafeVarargs
+        public final synchronized void setServices( T... services )
         {
             providers.clear();
             if ( services != null )
@@ -267,7 +268,8 @@ public final class DefaultServiceLocator
      * @param services The instances of the service, may be {@code null} but must not contain {@code null} elements.
      * @return This locator for chaining, never {@code null}.
      */
-    public <T> DefaultServiceLocator setServices( Class<T> type, T... services )
+    @SafeVarargs
+    public final <T> DefaultServiceLocator setServices( Class<T> type, T... services )
     {
         getEntry( type, true ).setServices( services );
         return this;

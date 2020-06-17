@@ -21,7 +21,6 @@ package org.eclipse.aether.util.graph.transformer;
 
 import java.util.Collection;
 
-import org.eclipse.aether.RepositoryException;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver.ConflictContext;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver.ConflictItem;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver.OptionalitySelector;
@@ -44,7 +43,6 @@ public final class SimpleOptionalitySelector
 
     @Override
     public void selectOptionality( ConflictContext context )
-        throws RepositoryException
     {
         boolean optional = chooseEffectiveOptionality( context.getItems() );
         context.setOptional( optional );

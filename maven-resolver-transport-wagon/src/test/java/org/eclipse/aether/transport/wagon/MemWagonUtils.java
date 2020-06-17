@@ -55,7 +55,7 @@ class MemWagonUtils
 
     public static Map<String, String> openConnection( Wagon wagon, AuthenticationInfo auth, ProxyInfo proxy,
                                                       Properties headers )
-        throws ConnectionException, AuthenticationException
+        throws ConnectionException
     {
         URI uri = URI.create( wagon.getRepository().getUrl() );
 

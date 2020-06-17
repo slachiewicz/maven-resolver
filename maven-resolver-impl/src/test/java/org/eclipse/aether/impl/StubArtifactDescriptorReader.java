@@ -30,7 +30,6 @@ public class StubArtifactDescriptorReader
 
     public ArtifactDescriptorResult readArtifactDescriptor( RepositorySystemSession session,
                                                             ArtifactDescriptorRequest request )
-        throws ArtifactDescriptorException
     {
         return new ArtifactDescriptorResult( request );
     }

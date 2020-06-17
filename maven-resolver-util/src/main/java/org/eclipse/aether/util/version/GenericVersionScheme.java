@@ -65,7 +65,6 @@ public final class GenericVersionScheme
     }
 
     public Version parseVersion( final String version )
-        throws InvalidVersionSpecificationException
     {
         return new GenericVersion( version );
     }

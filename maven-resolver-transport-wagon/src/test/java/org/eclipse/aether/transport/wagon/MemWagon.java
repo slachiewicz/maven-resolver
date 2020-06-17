@@ -35,7 +35,6 @@ import org.apache.maven.wagon.InputData;
 import org.apache.maven.wagon.OutputData;
 import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.TransferFailedException;
-import org.apache.maven.wagon.authentication.AuthenticationException;
 import org.apache.maven.wagon.authorization.AuthorizationException;
 import org.apache.maven.wagon.events.TransferEvent;
 import org.apache.maven.wagon.resource.Resource;
@@ -70,16 +69,14 @@ public class MemWagon
 
     @Override
     protected void openConnectionInternal()
-        throws ConnectionException, AuthenticationException
+        throws ConnectionException
     {
-        fs =
-            MemWagonUtils.openConnection( this, getAuthenticationInfo(),
-                                          getProxyInfo( "mem", getRepository().getHost() ), headers );
+        fs = MemWagonUtils.openConnection( this, getAuthenticationInfo(),
+                getProxyInfo( "mem", getRepository().getHost() ), headers );
     }
 
     @Override
     protected void closeConnection()
-        throws ConnectionException
     {
         fs = null;
     }
@@ -91,7 +88,6 @@ public class MemWagon
 
     @Override
     public boolean resourceExists( String resourceName )
-        throws TransferFailedException, AuthorizationException
     {
         String data = getData( resourceName );
         return data != null;
@@ -104,7 +100,7 @@ public class MemWagon
     }
 
     public boolean getIfNewer( String resourceName, File destination, long timestamp )
-        throws TransferFailedException, ResourceDoesNotExistException, AuthorizationException
+        throws TransferFailedException, ResourceDoesNotExistException
     {
         Resource resource = new Resource( resourceName );
         fireGetInitiated( resource, destination );
@@ -114,7 +110,7 @@ public class MemWagon
     }
 
     protected InputStream getInputStream( Resource resource )
-        throws TransferFailedException, ResourceDoesNotExistException, AuthorizationException
+        throws ResourceDoesNotExistException
     {
         InputData inputData = new InputData();
         inputData.setResource( resource );
@@ -122,7 +118,7 @@ public class MemWagon
         {
             fillInputData( inputData );
         }
-        catch ( TransferFailedException | AuthorizationException | ResourceDoesNotExistException e )
+        catch ( ResourceDoesNotExistException e )
         {
             fireTransferError( resource, e, TransferEvent.REQUEST_GET );
             cleanupGetTransfer( resource );
@@ -139,7 +135,7 @@ public class MemWagon
     }
 
     protected void fillInputData( InputData inputData )
-        throws TransferFailedException, ResourceDoesNotExistException, AuthorizationException
+        throws ResourceDoesNotExistException
     {
         String data = getData( inputData.getResource().getName() );
         if ( data == null )
@@ -163,18 +159,12 @@ public class MemWagon
     }
 
     protected OutputStream getOutputStream( Resource resource )
-        throws TransferFailedException
     {
         OutputData outputData = new OutputData();
         outputData.setResource( resource );
         try
         {
             fillOutputData( outputData );
-        }
-        catch ( TransferFailedException e )
-        {
-            fireTransferError( resource, e, TransferEvent.REQUEST_PUT );
-            throw e;
         }
         finally
         {
@@ -188,14 +178,12 @@ public class MemWagon
     }
 
     protected void fillOutputData( OutputData outputData )
-        throws TransferFailedException
     {
         outputData.setOutputStream( new ByteArrayOutputStream() );
     }
 
     @Override
     protected void finishPutTransfer( Resource resource, InputStream input, OutputStream output )
-        throws TransferFailedException, AuthorizationException, ResourceDoesNotExistException
     {
         String data = new String( ( (ByteArrayOutputStream) output ).toByteArray(), StandardCharsets.UTF_8 );
         fs.put( URI.create( resource.getName() ).getSchemeSpecificPart(), data );

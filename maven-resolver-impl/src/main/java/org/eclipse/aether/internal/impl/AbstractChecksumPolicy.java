@@ -53,7 +53,6 @@ abstract class AbstractChecksumPolicy
     }
 
     public void onChecksumError( String algorithm, int kind, ChecksumFailureException exception )
-        throws ChecksumFailureException
     {
         logger.debug( "Could not validate {} checksum for {}", algorithm, resource.getResourceName(), exception );
     }

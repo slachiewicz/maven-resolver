@@ -135,7 +135,6 @@ final class ClasspathTransporter
 
     @Override
     protected void implPut( PutTask task )
-        throws Exception
     {
         throw new UnsupportedOperationException( "Uploading to a classpath: repository is not supported" );
     }

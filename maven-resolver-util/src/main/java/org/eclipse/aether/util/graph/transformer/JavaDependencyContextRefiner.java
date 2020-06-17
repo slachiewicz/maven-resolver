@@ -19,7 +19,6 @@ package org.eclipse.aether.util.graph.transformer;
  * under the License.
  */
 
-import org.eclipse.aether.RepositoryException;
 import org.eclipse.aether.collection.DependencyGraphTransformationContext;
 import org.eclipse.aether.collection.DependencyGraphTransformer;
 import org.eclipse.aether.graph.Dependency;
@@ -38,7 +37,6 @@ public final class JavaDependencyContextRefiner
 {
 
     public DependencyNode transformGraph( DependencyNode node, DependencyGraphTransformationContext context )
-        throws RepositoryException
     {
         String ctx = node.getRequestContext();
 

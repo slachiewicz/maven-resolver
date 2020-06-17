@@ -19,7 +19,6 @@ package org.eclipse.aether.util.graph.transformer;
  * under the License.
  */
 
-import org.eclipse.aether.RepositoryException;
 import org.eclipse.aether.util.artifact.JavaScopes;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver.ScopeContext;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver.ScopeDeriver;
@@ -40,7 +39,6 @@ public final class JavaScopeDeriver
 
     @Override
     public void deriveScope( ScopeContext context )
-        throws RepositoryException
     {
         context.setDerivedScope( getDerivedScope( context.getParentScope(), context.getChildScope() ) );
     }

@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.aether.RepositoryException;
 import org.eclipse.aether.util.artifact.JavaScopes;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver.ConflictContext;
 import org.eclipse.aether.util.graph.transformer.ConflictResolver.ConflictItem;
@@ -47,7 +46,6 @@ public final class JavaScopeSelector
 
     @Override
     public void selectScope( ConflictContext context )
-        throws RepositoryException
     {
         String scope = context.getWinner().getDependency().getScope();
         if ( !JavaScopes.SYSTEM.equals( scope ) )
