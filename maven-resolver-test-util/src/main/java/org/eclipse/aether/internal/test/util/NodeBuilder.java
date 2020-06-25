@@ -130,7 +130,7 @@ public class NodeBuilder
 
     public NodeBuilder properties( Map<String, String> properties )
     {
-        this.properties = properties != null ? properties : Collections.<String, String>emptyMap();
+        this.properties = properties != null ? properties : Collections.emptyMap();
         return this;
     }
 

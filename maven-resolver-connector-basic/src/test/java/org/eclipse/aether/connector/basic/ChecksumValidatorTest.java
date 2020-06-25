@@ -50,7 +50,7 @@ public class ChecksumValidatorTest
 
         boolean tolerateFailure;
 
-        private List<String> callbacks = new ArrayList<>();
+        private final List<String> callbacks = new ArrayList<>();
 
         private Object conclusion;
 
@@ -125,7 +125,7 @@ public class ChecksumValidatorTest
 
         List<File> checksumFiles = new ArrayList<>();
 
-        private List<URI> fetchedFiles = new ArrayList<>();
+        private final List<URI> fetchedFiles = new ArrayList<>();
 
         public boolean fetchChecksum( URI remote, File local )
             throws Exception

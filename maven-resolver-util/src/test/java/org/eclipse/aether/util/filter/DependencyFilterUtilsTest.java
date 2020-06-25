@@ -35,7 +35,7 @@ import org.junit.Test;
 public class DependencyFilterUtilsTest
 {
 
-    private static List<DependencyNode> PARENTS = Collections.emptyList();
+    private static final List<DependencyNode> PARENTS = Collections.emptyList();
 
     @Test
     public void testClasspathFilterCompile()

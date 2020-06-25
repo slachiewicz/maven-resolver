@@ -60,9 +60,9 @@ public final class ClassicDependencyManager
      */
     public ClassicDependencyManager()
     {
-        this( 0, Collections.<Object, String>emptyMap(), Collections.<Object, String>emptyMap(),
-              Collections.<Object, Boolean>emptyMap(), Collections.<Object, String>emptyMap(),
-              Collections.<Object, Collection<Exclusion>>emptyMap() );
+        this( 0, Collections.emptyMap(), Collections.emptyMap(),
+              Collections.emptyMap(), Collections.emptyMap(),
+              Collections.emptyMap() );
     }
 
     private ClassicDependencyManager( int depth, Map<Object, String> managedVersions,
@@ -148,12 +148,7 @@ public final class ClassicDependencyManager
                 {
                     managedExclusions = new HashMap<>( this.managedExclusions );
                 }
-                Collection<Exclusion> managed = managedExclusions.get( key );
-                if ( managed == null )
-                {
-                    managed = new LinkedHashSet<>();
-                    managedExclusions.put( key, managed );
-                }
+                Collection<Exclusion> managed = managedExclusions.computeIfAbsent( key, k -> new LinkedHashSet<>() );
                 managed.addAll( exclusions );
             }
         }

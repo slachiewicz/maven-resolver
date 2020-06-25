@@ -44,7 +44,7 @@ public class PatternExclusionsDependencyFilterTest
 
         // Empty String, Empty List
         assertTrue( dontAccept( node, "" ) );
-        assertTrue( new PatternExclusionsDependencyFilter( new LinkedList<String>() ).accept( node, parents ) );
+        assertTrue( new PatternExclusionsDependencyFilter( new LinkedList<>() ).accept( node, parents ) );
         assertTrue( new PatternExclusionsDependencyFilter( (String[]) null ).accept( node, parents ) );
         assertTrue( new PatternExclusionsDependencyFilter( (VersionScheme) null, "[1,10]" ).accept( node, parents ) );
     }
@@ -175,7 +175,7 @@ public class PatternExclusionsDependencyFilterTest
 
     private boolean dontAccept( DependencyNode node, String expression )
     {
-        return !new PatternExclusionsDependencyFilter( expression ).accept( node, new LinkedList<DependencyNode>() );
+        return !new PatternExclusionsDependencyFilter( expression ).accept( node, new LinkedList<>() );
     }
 
     private boolean dontAcceptVersionRange( DependencyNode node, String... expression )

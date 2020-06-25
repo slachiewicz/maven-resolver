@@ -19,37 +19,19 @@ package org.eclipse.aether.util.filter;
  * under the License.
  */
 
-import java.util.List;
-
 import org.eclipse.aether.graph.DependencyFilter;
-import org.eclipse.aether.graph.DependencyNode;
 
 public abstract class AbstractDependencyFilterTest
 {
 
     protected DependencyFilter getAcceptFilter()
     {
-        return new DependencyFilter()
-        {
-
-            public boolean accept( DependencyNode node, List<DependencyNode> parents )
-            {
-                return true;
-            }
-
-        };
+        return ( node, parents ) -> true;
     }
 
     protected DependencyFilter getDenyFilter()
     {
-        return new DependencyFilter()
-        {
-
-            public boolean accept( DependencyNode node, List<DependencyNode> parents )
-            {
-                return false;
-            }
-        };
+        return ( node, parents ) -> false;
     }
 
 }

@@ -62,7 +62,7 @@ public class EnhancedLocalRepositoryManagerTest
 
     private RemoteRepository repository;
 
-    private String testContext = "project/compile";
+    private final String testContext = "project/compile";
 
     private RepositorySystemSession session;
 
@@ -79,12 +79,12 @@ public class EnhancedLocalRepositoryManagerTest
             new RemoteRepository.Builder( "enhanced-remote-repo", "default", url ).setRepositoryManager( true ).build();
 
         artifact =
-            new DefaultArtifact( "gid", "aid", "", "jar", "1-test", Collections.<String, String> emptyMap(),
+            new DefaultArtifact( "gid", "aid", "", "jar", "1-test", Collections.emptyMap(),
                                  TestFileUtils.createTempFile( "artifact" ) );
 
         snapshot =
             new DefaultArtifact( "gid", "aid", "", "jar", "1.0-20120710.231549-9",
-                                 Collections.<String, String> emptyMap(), TestFileUtils.createTempFile( "artifact" ) );
+                                 Collections.emptyMap(), TestFileUtils.createTempFile( "artifact" ) );
 
         metadata =
             new DefaultMetadata( "gid", "aid", "1-test", "maven-metadata.xml", Nature.RELEASE,

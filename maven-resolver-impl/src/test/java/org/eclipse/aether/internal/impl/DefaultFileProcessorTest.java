@@ -23,7 +23,6 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.aether.internal.impl.DefaultFileProcessor;
@@ -110,13 +109,9 @@ public class DefaultFileProcessorTest
         File target = new File( targetDir, "testProgressingChannel" );
         target.delete();
         final AtomicInteger progressed = new AtomicInteger();
-        ProgressListener listener = new ProgressListener()
-        {
-            public void progressed( ByteBuffer buffer )
-            {
-                progressed.addAndGet( buffer.remaining() );
-            }
-        };
+
+        ProgressListener listener = buffer -> progressed.addAndGet( buffer.remaining() );
+
         fileProcessor.copy( file, target, listener );
         assertTrue( "file was not created", target.isFile() );
         assertEquals( "file was not fully copied", 4L, target.length() );

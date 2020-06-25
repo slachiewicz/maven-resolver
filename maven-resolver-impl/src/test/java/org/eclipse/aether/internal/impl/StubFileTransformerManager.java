@@ -42,7 +42,7 @@ public class StubFileTransformerManager implements FileTransformerManager
     {
         if ( !fileTransformers.containsKey( extension ) )
         {
-            fileTransformers.put( extension, new HashSet<FileTransformer>() );
+            fileTransformers.put( extension, new HashSet<>() );
         }
         fileTransformers.get( extension ).add( fileTransformer );
     }

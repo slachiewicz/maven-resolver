@@ -410,7 +410,7 @@ public class DefaultRepositorySystem
     {
         validateSession( session );
         repositories =
-            remoteRepositoryManager.aggregateRepositories( session, new ArrayList<RemoteRepository>(), repositories,
+            remoteRepositoryManager.aggregateRepositories( session, new ArrayList<>(), repositories,
                                                            true );
         return repositories;
     }

@@ -33,7 +33,7 @@ class RecordingRepositoryListener
     implements RepositoryListener
 {
 
-    private List<RepositoryEvent> events = Collections.synchronizedList( new ArrayList<RepositoryEvent>() );
+    private List<RepositoryEvent> events = Collections.synchronizedList( new ArrayList<>() );
 
     public List<RepositoryEvent> getEvents()
     {

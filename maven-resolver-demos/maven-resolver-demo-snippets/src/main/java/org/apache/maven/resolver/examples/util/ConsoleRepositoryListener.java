@@ -31,7 +31,7 @@ public class ConsoleRepositoryListener
     extends AbstractRepositoryListener
 {
 
-    private PrintStream out;
+    private final PrintStream out;
 
     public ConsoleRepositoryListener()
     {

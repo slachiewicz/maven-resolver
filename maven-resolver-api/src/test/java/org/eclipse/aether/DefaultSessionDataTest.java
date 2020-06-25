@@ -29,7 +29,7 @@ import org.junit.Test;
 public class DefaultSessionDataTest
 {
 
-    private DefaultSessionData data = new DefaultSessionData();
+    private final DefaultSessionData data = new DefaultSessionData();
 
     private Object get( Object key )
     {
@@ -102,27 +102,23 @@ public class DefaultSessionDataTest
         Thread[] threads = new Thread[20];
         for ( int i = 0; i < threads.length; i++ )
         {
-            threads[i] = new Thread()
+            threads[i] = new Thread( () ->
             {
-                @Override
-                public void run()
+                for ( int i1 = 0; i1 < 100; i1++ )
                 {
-                    for ( int i = 0; i < 100; i++ )
+                    String key = UUID.randomUUID().toString();
+                    try
                     {
-                        String key = UUID.randomUUID().toString();
-                        try
-                        {
-                            set( key, Boolean.TRUE );
-                            assertEquals( Boolean.TRUE, get( key ) );
-                        }
-                        catch ( Throwable t )
-                        {
-                            error.compareAndSet( null, t );
-                            t.printStackTrace();
-                        }
+                        set( key, Boolean.TRUE );
+                        assertEquals( Boolean.TRUE, get( key ) );
+                    }
+                    catch ( Throwable t )
+                    {
+                        error.compareAndSet( null, t );
+                        t.printStackTrace();
                     }
                 }
-            };
+            } );
         }
         for ( Thread thread : threads )
         {

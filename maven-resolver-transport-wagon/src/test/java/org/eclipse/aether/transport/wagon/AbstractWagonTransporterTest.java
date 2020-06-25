@@ -109,13 +109,8 @@ public abstract class AbstractWagonTransporterTest
             public void release( Wagon wagon )
             {
             }
-        }, new WagonConfigurator()
-        {
-            public void configure( Wagon wagon, Object configuration )
-            {
-                ( (Configurable) wagon ).setConfiguration( configuration );
-            }
-        } );
+        }, ( wagon, configuration ) -> ( (Configurable) wagon ).setConfiguration( configuration ) );
+
         id = UUID.randomUUID().toString().replace( "-", "" );
         fs = MemWagonUtils.getFilesystem( id );
         fs.put( "file.txt", "test" );

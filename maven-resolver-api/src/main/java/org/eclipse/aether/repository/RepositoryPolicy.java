@@ -122,11 +122,7 @@ public final class RepositoryPolicy
     @Override
     public String toString()
     {
-        StringBuilder buffer = new StringBuilder( 256 );
-        buffer.append( "enabled=" ).append( isEnabled() );
-        buffer.append( ", checksums=" ).append( getChecksumPolicy() );
-        buffer.append( ", updates=" ).append( getUpdatePolicy() );
-        return buffer.toString();
+        return "enabled=" + isEnabled() + ", checksums=" + getChecksumPolicy() + ", updates=" + getUpdatePolicy();
     }
 
     @Override

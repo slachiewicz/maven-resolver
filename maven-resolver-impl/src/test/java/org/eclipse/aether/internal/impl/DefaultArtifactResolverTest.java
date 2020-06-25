@@ -60,7 +60,6 @@ import org.eclipse.aether.repository.WorkspaceRepository;
 import org.eclipse.aether.resolution.ArtifactRequest;
 import org.eclipse.aether.resolution.ArtifactResolutionException;
 import org.eclipse.aether.resolution.ArtifactResult;
-import org.eclipse.aether.resolution.VersionRequest;
 import org.eclipse.aether.resolution.VersionResolutionException;
 import org.eclipse.aether.resolution.VersionResult;
 import org.eclipse.aether.spi.connector.ArtifactDownload;
@@ -572,14 +571,9 @@ public class DefaultArtifactResolverTest
     @Test
     public void testVersionResolverFails()
     {
-        resolver.setVersionResolver( new VersionResolver()
+        resolver.setVersionResolver( ( session, request ) ->
         {
-
-            public VersionResult resolveVersion( RepositorySystemSession session, VersionRequest request )
-                throws VersionResolutionException
-            {
-                throw new VersionResolutionException( new VersionResult( request ) );
-            }
+            throw new VersionResolutionException( new VersionResult( request ) );
         } );
 
         ArtifactRequest request = new ArtifactRequest( artifact, null, "" );
@@ -609,14 +603,9 @@ public class DefaultArtifactResolverTest
     @Test
     public void testRepositoryEventsOnVersionResolverFail()
     {
-        resolver.setVersionResolver( new VersionResolver()
+        resolver.setVersionResolver( ( session, request ) ->
         {
-
-            public VersionResult resolveVersion( RepositorySystemSession session, VersionRequest request )
-                throws VersionResolutionException
-            {
-                throw new VersionResolutionException( new VersionResult( request ) );
-            }
+            throw new VersionResolutionException( new VersionResult( request ) );
         } );
 
         RecordingRepositoryListener listener = new RecordingRepositoryListener();
@@ -796,14 +785,10 @@ public class DefaultArtifactResolverTest
         ArtifactRequest request = new ArtifactRequest( artifact, null, "" );
         request.addRepository( new RemoteRepository.Builder( "id", "default", "file:///" ).build() );
 
-        resolver.setVersionResolver( new VersionResolver()
-        {
-
-            public VersionResult resolveVersion( RepositorySystemSession session, VersionRequest request )
-            {
-                return new VersionResult( request ).setRepository( new LocalRepository( "id" ) ).setVersion( request.getArtifact().getVersion() );
-            }
-        } );
+        resolver.setVersionResolver( ( session, request1 ) ->
+                new VersionResult( request1 )
+                        .setRepository( new LocalRepository( "id" ) )
+                        .setVersion( request1.getArtifact().getVersion() ) );
         ArtifactResult result = resolver.resolveArtifact( session, request );
 
         assertTrue( result.getExceptions().isEmpty() );
@@ -879,14 +864,8 @@ public class DefaultArtifactResolverTest
         } );
         ArtifactRequest request = new ArtifactRequest( artifact, null, "" );
 
-        resolver.setVersionResolver( new VersionResolver()
-        {
-
-            public VersionResult resolveVersion( RepositorySystemSession session, VersionRequest request )
-            {
-                return new VersionResult( request ).setVersion( request.getArtifact().getVersion() );
-            }
-        } );
+        resolver.setVersionResolver( ( session, request1 ) ->
+                new VersionResult( request1 ).setVersion( request1.getArtifact().getVersion() ) );
         ArtifactResult result = resolver.resolveArtifact( session, request );
 
         assertTrue( result.getExceptions().isEmpty() );

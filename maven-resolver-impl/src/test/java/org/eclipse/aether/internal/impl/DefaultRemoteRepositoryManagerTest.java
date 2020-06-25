@@ -29,9 +29,7 @@ import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.impl.UpdatePolicyAnalyzer;
 import org.eclipse.aether.internal.test.util.TestUtils;
-import org.eclipse.aether.repository.MirrorSelector;
 import org.eclipse.aether.repository.Proxy;
-import org.eclipse.aether.repository.ProxySelector;
 import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.repository.RepositoryPolicy;
 import org.eclipse.aether.util.repository.AuthenticationBuilder;
@@ -192,16 +190,11 @@ public class DefaultRemoteRepositoryManagerTest
         final RemoteRepository repo = newRepo( "a", "http://", true, "", "" ).build();
         final RemoteRepository mirror =
             newRepo( "a", "http://", true, "", "" ).setAuthentication( new AuthenticationBuilder().addUsername( "test" ).build() ).build();
-        session.setMirrorSelector( new MirrorSelector()
-        {
-            public RemoteRepository getMirror( RemoteRepository repository )
-            {
-                return mirror;
-            }
-        } );
+
+        session.setMirrorSelector( repository -> mirror );
 
         List<RemoteRepository> result =
-            manager.aggregateRepositories( session, Collections.<RemoteRepository> emptyList(), Arrays.asList( repo ),
+            manager.aggregateRepositories( session, Collections.emptyList(), Arrays.asList( repo ),
                                            true );
 
         assertEquals( 1, result.size() );
@@ -214,16 +207,11 @@ public class DefaultRemoteRepositoryManagerTest
         final RemoteRepository repo = newRepo( "a", "http://", true, "", "" ).build();
         final RemoteRepository mirror =
             newRepo( "a", "http://", true, "", "" ).setProxy( new Proxy( "http", "host", 2011, null ) ).build();
-        session.setMirrorSelector( new MirrorSelector()
-        {
-            public RemoteRepository getMirror( RemoteRepository repository )
-            {
-                return mirror;
-            }
-        } );
+
+        session.setMirrorSelector( repository -> mirror );
 
         List<RemoteRepository> result =
-            manager.aggregateRepositories( session, Collections.<RemoteRepository> emptyList(), Arrays.asList( repo ),
+            manager.aggregateRepositories( session, Collections.emptyList(), Arrays.asList( repo ),
                                            true );
 
         assertEquals( 1, result.size() );
@@ -237,23 +225,11 @@ public class DefaultRemoteRepositoryManagerTest
     {
         final RemoteRepository repo = newRepo( "a", "http://", true, "", "" ).build();
         final Proxy proxy = new Proxy( "http", "host", 2011, null );
-        session.setProxySelector( new ProxySelector()
-        {
-            public Proxy getProxy( RemoteRepository repository )
-            {
-                return proxy;
-            }
-        } );
-        session.setMirrorSelector( new MirrorSelector()
-        {
-            public RemoteRepository getMirror( RemoteRepository repository )
-            {
-                return null;
-            }
-        } );
+        session.setProxySelector( repository -> proxy );
+        session.setMirrorSelector( repository -> null );
 
         List<RemoteRepository> result =
-            manager.aggregateRepositories( session, Collections.<RemoteRepository> emptyList(), Arrays.asList( repo ),
+            manager.aggregateRepositories( session, Collections.emptyList(), Arrays.asList( repo ),
                                            true );
 
         assertEquals( 1, result.size() );

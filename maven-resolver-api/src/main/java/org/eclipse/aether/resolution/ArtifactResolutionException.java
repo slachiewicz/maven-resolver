@@ -43,7 +43,7 @@ public class ArtifactResolutionException
     public ArtifactResolutionException( List<ArtifactResult> results )
     {
         super( getMessage( results ), getCause( results ) );
-        this.results = ( results != null ) ? results : Collections.<ArtifactResult>emptyList();
+        this.results = ( results != null ) ? results : Collections.emptyList();
     }
 
     /**
@@ -55,7 +55,7 @@ public class ArtifactResolutionException
     public ArtifactResolutionException( List<ArtifactResult> results, String message )
     {
         super( message, getCause( results ) );
-        this.results = ( results != null ) ? results : Collections.<ArtifactResult>emptyList();
+        this.results = ( results != null ) ? results : Collections.emptyList();
     }
 
     /**
@@ -68,7 +68,7 @@ public class ArtifactResolutionException
     public ArtifactResolutionException( List<ArtifactResult> results, String message, Throwable cause )
     {
         super( message, cause );
-        this.results = ( results != null ) ? results : Collections.<ArtifactResult>emptyList();
+        this.results = ( results != null ) ? results : Collections.emptyList();
     }
 
     /**

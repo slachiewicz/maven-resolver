@@ -933,28 +933,24 @@ public class HttpTransporterTest
         for ( int i = 0; i < threads.length; i++ )
         {
             final String path = "repo/file.txt?i=" + i;
-            threads[i] = new Thread()
+            threads[i] = new Thread( () ->
             {
-                @Override
-                public void run()
+                try
                 {
-                    try
+                    for ( int j = 0; j < 100; j++ )
                     {
-                        for ( int j = 0; j < 100; j++ )
-                        {
-                            GetTask task = new GetTask( URI.create( path ) );
-                            transporter.get( task );
-                            assertEquals( "test", task.getDataString() );
-                        }
-                    }
-                    catch ( Throwable t )
-                    {
-                        error.compareAndSet( null, t );
-                        System.err.println( path );
-                        t.printStackTrace();
+                        GetTask task = new GetTask( URI.create( path ) );
+                        transporter.get( task );
+                        assertEquals( "test", task.getDataString() );
                     }
                 }
-            };
+                catch ( Throwable t )
+                {
+                    error.compareAndSet( null, t );
+                    System.err.println( path );
+                    t.printStackTrace();
+                }
+            } );
             threads[i].setName( "Task-" + i );
         }
         for ( Thread thread : threads )

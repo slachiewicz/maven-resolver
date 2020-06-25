@@ -45,7 +45,7 @@ import org.junit.Test;
 public class JreProxySelectorTest
 {
 
-    private abstract class AbstractProxySelector
+    private abstract static class AbstractProxySelector
         extends java.net.ProxySelector
     {
         @Override

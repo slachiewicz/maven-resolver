@@ -45,7 +45,7 @@ final class UnionVersionRange
     {
         if ( ranges == null )
         {
-            return from( Collections.<VersionRange>emptySet() );
+            return from( Collections.emptySet() );
         }
         return from( Arrays.asList( ranges ) );
     }

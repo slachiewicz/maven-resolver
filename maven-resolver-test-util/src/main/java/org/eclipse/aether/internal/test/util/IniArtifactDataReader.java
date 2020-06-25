@@ -45,7 +45,7 @@ import org.eclipse.aether.repository.RemoteRepository;
 class IniArtifactDataReader
 {
 
-    private String prefix = "";
+    private String prefix;
 
     /**
      * Constructs a data reader with the prefix {@code ""}.
@@ -108,7 +108,7 @@ class IniArtifactDataReader
     private ArtifactDescription parse( Reader reader )
         throws IOException
     {
-        String line = null;
+        String line;
 
         State state = State.NONE;
 
@@ -134,7 +134,7 @@ class IniArtifactDataReader
                         String name = line.substring( 1, line.length() - 1 );
                         name = name.replace( "-", "" ).toUpperCase( Locale.ENGLISH );
                         state = State.valueOf( name );
-                        sections.put( state, new ArrayList<String>() );
+                        sections.put( state, new ArrayList<>() );
                     }
                     catch ( IllegalArgumentException e )
                     {

@@ -29,9 +29,9 @@ import org.junit.Test;
 public class DefaultRepositoryCacheTest
 {
 
-    private DefaultRepositoryCache cache = new DefaultRepositoryCache();
+    private final DefaultRepositoryCache cache = new DefaultRepositoryCache();
 
-    private RepositorySystemSession session = new DefaultRepositorySystemSession();
+    private final RepositorySystemSession session = new DefaultRepositorySystemSession();
 
     private Object get( Object key )
     {
@@ -76,27 +76,23 @@ public class DefaultRepositoryCacheTest
         Thread[] threads = new Thread[20];
         for ( int i = 0; i < threads.length; i++ )
         {
-            threads[i] = new Thread()
+            threads[i] = new Thread( () ->
             {
-                @Override
-                public void run()
+                for ( int i1 = 0; i1 < 100; i1++ )
                 {
-                    for ( int i = 0; i < 100; i++ )
+                    String key = UUID.randomUUID().toString();
+                    try
                     {
-                        String key = UUID.randomUUID().toString();
-                        try
-                        {
-                            put( key, Boolean.TRUE );
-                            assertEquals( Boolean.TRUE, get( key ) );
-                        }
-                        catch ( Throwable t )
-                        {
-                            error.compareAndSet( null, t );
-                            t.printStackTrace();
-                        }
+                        put( key, Boolean.TRUE );
+                        assertEquals( Boolean.TRUE, get( key ) );
+                    }
+                    catch ( Throwable t )
+                    {
+                        error.compareAndSet( null, t );
+                        t.printStackTrace();
                     }
                 }
-            };
+            } );
         }
         for ( Thread thread : threads )
         {

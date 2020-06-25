@@ -45,7 +45,7 @@ public class PatternInclusionsDependencyFilterTest
 
         // Empty String, Empty List
         assertTrue( accept( node, "" ) );
-        assertFalse( new PatternInclusionsDependencyFilter( new LinkedList<String>() ).accept( node, parents ) );
+        assertFalse( new PatternInclusionsDependencyFilter( new LinkedList<>() ).accept( node, parents ) );
         assertFalse( new PatternInclusionsDependencyFilter( (String[]) null ).accept( node, parents ) );
         assertFalse( new PatternInclusionsDependencyFilter( (VersionScheme) null, "[1,10]" ).accept( node, parents ) );
     }
@@ -172,7 +172,7 @@ public class PatternInclusionsDependencyFilterTest
 
     public boolean accept( DependencyNode node, String expression )
     {
-        return new PatternInclusionsDependencyFilter( expression ).accept( node, new LinkedList<DependencyNode>() );
+        return new PatternInclusionsDependencyFilter( expression ).accept( node, new LinkedList<>() );
     }
 
     public boolean acceptVersionRange( DependencyNode node, String... expression )

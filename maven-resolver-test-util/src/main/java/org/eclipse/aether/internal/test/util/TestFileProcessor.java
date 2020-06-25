@@ -54,7 +54,7 @@ public class TestFileProcessor
             return true;
         }
 
-        File canonDir = null;
+        File canonDir;
         try
         {
             canonDir = directory.getCanonicalFile();
@@ -142,7 +142,7 @@ public class TestFileProcessor
     public long copy( File source, File target, ProgressListener listener )
         throws IOException
     {
-        long total = 0;
+        long total;
 
         InputStream fis = null;
         OutputStream fos = null;

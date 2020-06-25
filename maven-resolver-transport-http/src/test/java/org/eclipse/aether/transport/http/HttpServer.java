@@ -114,7 +114,7 @@ public class HttpServer
 
     private String proxyPassword;
 
-    private List<LogEntry> logEntries = Collections.synchronizedList( new ArrayList<LogEntry>() );
+    private final List<LogEntry> logEntries = Collections.synchronizedList( new ArrayList<>() );
 
     public String getHost()
     {

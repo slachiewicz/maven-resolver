@@ -101,10 +101,7 @@ final class SecretAuthentication
     {
         if ( chars != null )
         {
-            for ( int i = 0; i < chars.length; i++ )
-            {
-                chars[i] = '\0';
-            }
+            Arrays.fill( chars, '\0' );
         }
     }
 

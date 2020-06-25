@@ -121,7 +121,7 @@ public class DependencyGraphParser
      */
     public DependencyGraphParser( String prefix )
     {
-        this( prefix, Collections.<String>emptyList() );
+        this( prefix, Collections.emptyList() );
     }
 
     /**
@@ -174,7 +174,7 @@ public class DependencyGraphParser
         BufferedReader reader = new BufferedReader( new InputStreamReader( res.openStream(), StandardCharsets.UTF_8 ) );
 
         List<DependencyNode> ret = new ArrayList<>();
-        DependencyNode root = null;
+        DependencyNode root;
         while ( ( root = parse( reader ) ) != null )
         {
             ret.add( root );
@@ -216,7 +216,7 @@ public class DependencyGraphParser
     {
         Iterator<String> substitutionIterator = ( substitutions != null ) ? substitutions.iterator() : null;
 
-        String line = null;
+        String line;
 
         DependencyNode root = null;
         DependencyNode node = null;
@@ -454,7 +454,7 @@ public class DependencyGraphParser
 
     }
 
-    class NodeEntry
+    static class NodeEntry
     {
         int level;
 

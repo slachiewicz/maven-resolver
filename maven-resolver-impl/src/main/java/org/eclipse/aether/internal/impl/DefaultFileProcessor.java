@@ -153,7 +153,7 @@ public class DefaultFileProcessor
     public long copy( File source, File target, ProgressListener listener )
         throws IOException
     {
-        long total = 0L;
+        long total;
 
         InputStream in = null;
         OutputStream out = null;

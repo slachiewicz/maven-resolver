@@ -62,7 +62,7 @@ public final class DefaultArtifact
      */
     public DefaultArtifact( String coords )
     {
-        this( coords, Collections.<String, String>emptyMap() );
+        this( coords, Collections.emptyMap() );
     }
 
     /**

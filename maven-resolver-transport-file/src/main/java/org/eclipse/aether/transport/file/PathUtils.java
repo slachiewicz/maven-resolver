@@ -57,7 +57,7 @@ final class PathUtils
     {
         String protocol = PathUtils.protocol( url );
 
-        String retValue = null;
+        String retValue;
 
         if ( protocol.length() > 0 )
         {

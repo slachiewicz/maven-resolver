@@ -149,12 +149,7 @@ public final class ConflictResolver
         {
             for ( Object conflictId : cycle )
             {
-                Collection<Object> predecessors = cyclicPredecessors.get( conflictId );
-                if ( predecessors == null )
-                {
-                    predecessors = new HashSet<>();
-                    cyclicPredecessors.put( conflictId, predecessors );
-                }
+                Collection<Object> predecessors = cyclicPredecessors.computeIfAbsent( conflictId, k -> new HashSet<>() );
                 predecessors.addAll( cycle );
             }
         }
@@ -285,7 +280,7 @@ public final class ConflictResolver
                         loser.setData( NODE_DATA_ORIGINAL_SCOPE, loser.getDependency().getScope() );
                         loser.setData( NODE_DATA_ORIGINAL_OPTIONALITY, loser.getDependency().isOptional() );
                         loser.setScope( item.getScopes().iterator().next() );
-                        loser.setChildren( Collections.<DependencyNode>emptyList() );
+                        loser.setChildren( Collections.emptyList() );
                         childIt.set( loser );
                     }
                     else

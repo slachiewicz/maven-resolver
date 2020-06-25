@@ -99,17 +99,14 @@ public class PathRecordingDependencyVisitorTest
         DependencyNode root = parse( "parents.txt" );
 
         final StringBuilder buffer = new StringBuilder( 256 );
-        DependencyFilter filter = new DependencyFilter()
+        DependencyFilter filter = ( node, parents ) ->
         {
-            public boolean accept( DependencyNode node, List<DependencyNode> parents )
+            for ( DependencyNode parent : parents )
             {
-                for ( DependencyNode parent : parents )
-                {
-                    buffer.append( parent.getDependency().getArtifact().getArtifactId() );
-                }
-                buffer.append( "," );
-                return false;
+                buffer.append( parent.getDependency().getArtifact().getArtifactId() );
             }
+            buffer.append( "," );
+            return false;
         };
 
         PathRecordingDependencyVisitor visitor = new PathRecordingDependencyVisitor( filter );

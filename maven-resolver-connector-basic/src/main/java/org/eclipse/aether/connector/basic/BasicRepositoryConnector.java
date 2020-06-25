@@ -170,8 +170,7 @@ final class BasicRepositoryConnector
         if ( executor == null )
         {
             executor =
-                new ThreadPoolExecutor( maxThreads, maxThreads, 3L, TimeUnit.SECONDS,
-                                        new LinkedBlockingQueue<Runnable>(),
+                new ThreadPoolExecutor( maxThreads, maxThreads, 3L, TimeUnit.SECONDS, new LinkedBlockingQueue<>(),
                                         new WorkerThreadFactory( getClass().getSimpleName() + '-'
                                             + repository.getHost() + '-' ) );
         }
@@ -305,7 +304,7 @@ final class BasicRepositoryConnector
 
     private static <T> Collection<T> safe( Collection<T> items )
     {
-        return ( items != null ) ? items : Collections.<T>emptyList();
+        return ( items != null ) ? items : Collections.emptyList();
     }
 
     private TransferResource newTransferResource( URI path, File file, RequestTrace trace )

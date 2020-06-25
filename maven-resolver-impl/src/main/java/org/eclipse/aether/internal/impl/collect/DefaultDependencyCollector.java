@@ -223,14 +223,13 @@ public class DefaultDependencyCollector
             node.setVersionConstraint( rangeResult.getVersionConstraint() );
             node.setVersion( version );
             node.setAliases( descriptorResult.getAliases() );
-            node.setRepositories( request.getRepositories() );
         }
         else
         {
             node = new DefaultDependencyNode( request.getRootArtifact() );
             node.setRequestContext( request.getRequestContext() );
-            node.setRepositories( request.getRepositories() );
         }
+        node.setRepositories( request.getRepositories() );
 
         result.setRoot( node );
 

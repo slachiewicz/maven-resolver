@@ -47,11 +47,11 @@ public class ChecksumUtilTest
 
     private static Map<String, String> emptyChecksums = new HashMap<>();
 
-    private static Map<String, String> patternChecksums = new HashMap<>();
+    private static final Map<String, String> patternChecksums = new HashMap<>();
 
-    private static Map<String, String> textChecksums = new HashMap<>();
+    private static final Map<String, String> textChecksums = new HashMap<>();
 
-    private Map<String, Map<String, String>> sums = new HashMap<>();
+    private final Map<String, Map<String, String>> sums = new HashMap<>();
 
     @BeforeClass
     public static void beforeClass()
@@ -97,7 +97,7 @@ public class ChecksumUtilTest
     public void testEquality()
         throws Throwable
     {
-        Map<String, Object> checksums = null;
+        Map<String, Object> checksums;
 
         for ( Map.Entry<String,File> fileEntry : files.entrySet() )
         {
@@ -214,7 +214,7 @@ public class ChecksumUtilTest
     @Test
     public void testCalcWithByteArray() throws Throwable
     {
-        Map<String, Object> checksums = null;
+        Map<String, Object> checksums;
 
         for ( Map.Entry<String, byte[]> bytesEntry : bytes.entrySet() )
         {

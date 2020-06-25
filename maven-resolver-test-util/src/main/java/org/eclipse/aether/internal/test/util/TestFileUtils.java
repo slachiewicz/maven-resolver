@@ -43,21 +43,17 @@ public class TestFileUtils
 
     static
     {
-        Runtime.getRuntime().addShutdownHook( new Thread()
+        Runtime.getRuntime().addShutdownHook( new Thread( () ->
         {
-            @Override
-            public void run()
+            try
             {
-                try
-                {
-                    deleteFile( TMP );
-                }
-                catch ( IOException e )
-                {
-                    e.printStackTrace();
-                }
+                deleteFile( TMP );
             }
-        } );
+            catch ( IOException e )
+            {
+                e.printStackTrace();
+            }
+        } ) );
     }
 
     private TestFileUtils()
@@ -134,7 +130,7 @@ public class TestFileUtils
             return true;
         }
 
-        File canonDir = null;
+        File canonDir;
         try
         {
             canonDir = directory.getCanonicalFile();

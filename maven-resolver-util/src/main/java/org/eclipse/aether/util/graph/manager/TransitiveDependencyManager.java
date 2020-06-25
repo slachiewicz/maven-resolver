@@ -64,9 +64,9 @@ public final class TransitiveDependencyManager
      */
     public TransitiveDependencyManager()
     {
-        this( 0, Collections.<Object, String>emptyMap(), Collections.<Object, String>emptyMap(),
-              Collections.<Object, Boolean>emptyMap(), Collections.<Object, String>emptyMap(),
-              Collections.<Object, Collection<Exclusion>>emptyMap() );
+        this( 0, Collections.emptyMap(), Collections.emptyMap(),
+              Collections.emptyMap(), Collections.emptyMap(),
+              Collections.emptyMap() );
     }
 
     private TransitiveDependencyManager( final int depth,
@@ -144,12 +144,7 @@ public final class TransitiveDependencyManager
                 {
                     exclusions = new HashMap<>( managedExclusions );
                 }
-                Collection<Exclusion> managed = exclusions.get( key );
-                if ( managed == null )
-                {
-                    managed = new LinkedHashSet<>();
-                    exclusions.put( key, managed );
-                }
+                Collection<Exclusion> managed = exclusions.computeIfAbsent( key, k -> new LinkedHashSet<>() );
                 managed.addAll( managedDependency.getExclusions() );
             }
         }

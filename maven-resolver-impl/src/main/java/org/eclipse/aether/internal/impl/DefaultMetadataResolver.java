@@ -487,17 +487,11 @@ public class DefaultMetadataResolver
     {
         if ( threads <= 1 )
         {
-            return new Executor()
-            {
-                public void execute( Runnable command )
-                {
-                    command.run();
-                }
-            };
+            return Runnable::run;
         }
         else
         {
-            return new ThreadPoolExecutor( threads, threads, 3, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(),
+            return new ThreadPoolExecutor( threads, threads, 3, TimeUnit.SECONDS, new LinkedBlockingQueue<>(),
                                            new WorkerThreadFactory( null ) );
         }
     }

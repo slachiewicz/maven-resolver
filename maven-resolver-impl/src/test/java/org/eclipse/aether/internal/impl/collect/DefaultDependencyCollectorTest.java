@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.aether.DefaultRepositorySystemSession;
-import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.ArtifactProperties;
 import org.eclipse.aether.artifact.DefaultArtifact;
@@ -53,7 +52,6 @@ import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.graph.DependencyCycle;
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.graph.Exclusion;
-import org.eclipse.aether.impl.ArtifactDescriptorReader;
 import org.eclipse.aether.internal.impl.IniArtifactDescriptorReader;
 import org.eclipse.aether.internal.impl.StubRemoteRepositoryManager;
 import org.eclipse.aether.internal.impl.StubVersionRangeResolver;
@@ -61,7 +59,6 @@ import org.eclipse.aether.internal.test.util.DependencyGraphParser;
 import org.eclipse.aether.internal.test.util.TestUtils;
 import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.resolution.ArtifactDescriptorException;
-import org.eclipse.aether.resolution.ArtifactDescriptorRequest;
 import org.eclipse.aether.resolution.ArtifactDescriptorResult;
 import org.eclipse.aether.util.artifact.ArtifactIdUtils;
 import org.eclipse.aether.util.graph.manager.ClassicDependencyManager;
@@ -117,7 +114,7 @@ public class DefaultDependencyCollectorTest
 
     private static void assertEqualSubtree( DependencyNode expected, DependencyNode actual )
     {
-        assertEqualSubtree( expected, actual, new LinkedList<DependencyNode>() );
+        assertEqualSubtree( expected, actual, new LinkedList<>() );
     }
 
     private static void assertEqualSubtree( DependencyNode expected, DependencyNode actual,
@@ -386,14 +383,10 @@ public class DefaultDependencyCollectorTest
 
         final List<RemoteRepository> repos = new ArrayList<>();
 
-        collector.setArtifactDescriptorReader( new ArtifactDescriptorReader()
+        collector.setArtifactDescriptorReader( ( session, request ) ->
         {
-            public ArtifactDescriptorResult readArtifactDescriptor( RepositorySystemSession session,
-                                                                    ArtifactDescriptorRequest request )
-            {
-                repos.addAll( request.getRepositories() );
-                return new ArtifactDescriptorResult( request );
-            }
+            repos.addAll( request.getRepositories() );
+            return new ArtifactDescriptorResult( request );
         } );
 
         List<Dependency> dependencies = Arrays.asList( newDep( "verrange:parent:jar:1[1,)", "compile" ) );
@@ -572,15 +565,15 @@ public class DefaultDependencyCollectorTest
         implements DependencyManager
     {
 
-        private Map<String, String> versions = new HashMap<>();
+        private final Map<String, String> versions = new HashMap<>();
 
-        private Map<String, String> scopes = new HashMap<>();
+        private final Map<String, String> scopes = new HashMap<>();
 
-        private Map<String, Boolean> optionals = new HashMap<>();
+        private final Map<String, Boolean> optionals = new HashMap<>();
 
-        private Map<String, String> paths = new HashMap<>();
+        private final Map<String, String> paths = new HashMap<>();
 
-        private Map<String, Collection<Exclusion>> exclusions = new HashMap<>();
+        private final Map<String, Collection<Exclusion>> exclusions = new HashMap<>();
 
         public void add( Dependency d, String version, String scope, String localPath )
         {

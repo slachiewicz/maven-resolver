@@ -44,7 +44,7 @@ public class ScopeDependencyFilterTest
 
         // null or empty
         assertTrue( new ScopeDependencyFilter( null, null ).accept( builder.build(), parents ) );
-        assertTrue( new ScopeDependencyFilter( new LinkedList<String>(), new LinkedList<String>() ).accept( builder.build(),
+        assertTrue( new ScopeDependencyFilter( new LinkedList<>(), new LinkedList<>() ).accept( builder.build(),
                                                                                                             parents ) );
         assertTrue( new ScopeDependencyFilter( (String[]) null ).accept( builder.build(), parents ) );
 

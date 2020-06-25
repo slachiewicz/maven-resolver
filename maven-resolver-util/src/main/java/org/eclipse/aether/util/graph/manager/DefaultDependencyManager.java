@@ -67,9 +67,9 @@ public final class DefaultDependencyManager
      */
     public DefaultDependencyManager()
     {
-        this( Collections.<Object, String>emptyMap(), Collections.<Object, String>emptyMap(),
-              Collections.<Object, Boolean>emptyMap(), Collections.<Object, String>emptyMap(),
-              Collections.<Object, Collection<Exclusion>>emptyMap() );
+        this( Collections.emptyMap(), Collections.emptyMap(),
+              Collections.emptyMap(), Collections.emptyMap(),
+              Collections.emptyMap() );
     }
 
     private DefaultDependencyManager( final Map<Object, String> managedVersions,
@@ -145,12 +145,7 @@ public final class DefaultDependencyManager
                 {
                     exclusions = new HashMap<>( this.managedExclusions );
                 }
-                Collection<Exclusion> managed = exclusions.get( key );
-                if ( managed == null )
-                {
-                    managed = new LinkedHashSet<>();
-                    exclusions.put( key, managed );
-                }
+                Collection<Exclusion> managed = exclusions.computeIfAbsent( key, k -> new LinkedHashSet<>() );
                 managed.addAll( managedDependency.getExclusions() );
             }
         }
@@ -194,7 +189,7 @@ public final class DefaultDependencyManager
             }
         }
 
-        if ( ( scope != null && JavaScopes.SYSTEM.equals( scope ) )
+        if ( ( JavaScopes.SYSTEM.equals( scope ) )
                  || ( scope == null && JavaScopes.SYSTEM.equals( dependency.getScope() ) ) )
         {
             String localPath = managedLocalPaths.get( key );

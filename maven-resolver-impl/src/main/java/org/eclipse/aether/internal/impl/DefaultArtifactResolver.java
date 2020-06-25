@@ -390,7 +390,7 @@ public class DefaultArtifactResolver
                 {
                     group = new ResolutionGroup( repo );
                     groups.add( group );
-                    groupIt = Collections.<ResolutionGroup>emptyList().iterator();
+                    groupIt = Collections.emptyIterator();
                 }
                 group.items.add( new ResolutionItem( trace, artifact, resolved, result, local, repo ) );
             }
